@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.test-container {
+  overflow: hidden;
+  width: 800px;
+  height: 600px;
+  background-color: rgb(0, 0, 0);
+  position: relative;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+.test-container > * {
+  position: absolute;
+}
