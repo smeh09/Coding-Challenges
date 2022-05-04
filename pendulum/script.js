@@ -29,12 +29,24 @@ const origin = [WIDTH / 2, (HEIGHT / 2) - 100];
 let pendulumAngle = 0;
 let armLen = 100;
 
+let pendulumVelocity = 0;
+let pendulumAcceleration = 0;
+
+const gravity = -0.01;
+
 const drawPendulum = () => {
-  pendulumAngle += 0.01;
   // find the pendulum position based on angle and arm length
   const posX = origin[0] + (Math.sin(pendulumAngle) * armLen);
-  const posY = origin[1] - (Math.cos(pendulumAngle) * armLen);
+  const posY = origin[1] + (Math.cos(pendulumAngle) * armLen);
   // the trig functions are inverted because angle theta is on top
+
+  pendulumAngle += 0.1;
+  pendulumAcceleration = Math.sin(pendulumAngle) * gravity;
+
+  pendulumAngle += pendulumVelocity;
+  pendulumVelocity += pendulumAcceleration;
+
+  pendulumVelocity *= 0.99;
 
   // render arm line
   drawLine(origin[0], origin[1], posX + 25/2, posY + 25/2, 5, [155, 155, 155]);
