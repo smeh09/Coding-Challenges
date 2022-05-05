@@ -11,14 +11,13 @@ const drawLine = (x1, y1, x2, y2, thickness, color) => {
   const distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
   const angle = -toDegrees(Math.atan2(x2 - x1, y2 - y1));
   
-  const lineElem = document.createElement('div')
-  /* here's the stuff i think is wrong */
+  const lineElem = document.createElement('div');
   lineElem.style.left = `${x1}px`;
   lineElem.style.top = `${y1}px`;
   lineElem.style.width = `${distance}px`;
   lineElem.style.height = `${thickness}px`;
   lineElem.style.backgroundColor = `rgb(${color.toString()})`;
-  lineElem.style.transformOrigin = 'top left';
+  lineElem.style.transformOrigin = `0 ${thickness/2}px`;
   lineElem.style.transform = `rotate(${angle + 90}deg)`;
 
   container.appendChild(lineElem);
