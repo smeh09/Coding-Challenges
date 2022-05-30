@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#container {
+  position: relative;
+  overflow: hidden;
+  width: 600px;
+  height: 600px;
+  margin: 0 auto;
+  margin-top: 40px;
+  background: black;
+  outline: 5px solid black;
+}
+
+#container > * {
+  position: absolute;
+}
