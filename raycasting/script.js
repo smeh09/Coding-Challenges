@@ -36,7 +36,7 @@ let px=288,py=476,pr=12;
 let pa=0;
 let pv=[0,0];
 let mt=false,mb=false,mr=false,ml=false;
-const mv=400;
+const mv=200;
 
 //draw map
 for(let y=0;y<map.length;y++){
@@ -84,8 +84,7 @@ const update=t=>{
   if(ml){ pv[0]=lerp(pv[0],pv[0]-200,dt*5); }
   if(mt){ pv[1]=lerp(pv[1],pv[1]-200,dt*5); }
   if(mb){ pv[1]=lerp(pv[1],pv[1]+200,dt*5); }
-  pv[0]=lerp(pv[0],0,dt*5);
-  pv[1]=lerp(pv[1],0,dt*5);
+  if(!mr&&!ml&&!mt&&!mb){ pv[0]=lerp(pv[0],0,dt*5); pv[1]=lerp(pv[1],0,dt*5); }
   pv[0]=clamp(pv[0],-mv,mv);
   pv[1]=clamp(pv[1],-mv,mv);
   px+=pv[0]*dt;
