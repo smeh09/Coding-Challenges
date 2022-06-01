@@ -19,6 +19,26 @@ const genc=map=>{
   }
   return c;
 }
+const degrees=rads=>{
+  return rads*(180/Math.PI);
+}
+const radians=degs=>{
+  return degs*(Math.PI/180);
+}
+const drawLine=(x1, y1, x2, y2, thickness, color)=>{
+  const distance = Math.sqrt((x2-x1)**2+(y2-y1)**2);
+  const angle=-degrees(Math.atan2(x2-x1,y2-y1));
+  const lineElem=document.createElement('div');
+  lineElem.style.left= `${x1}px`;
+  lineElem.style.top= `${y1}px`;
+  lineElem.style.width=`${distance}px`;
+  lineElem.style.height =`${thickness}px`;
+  lineElem.style.backgroundColor=`rgb(${color.toString()})`;
+  lineElem.style.transformOrigin=`0 ${thickness/2}px`;
+  lineElem.style.transform=`rotate(${angle+90}deg)`;
+  container.appendChild(lineElem);
+  return lineElem;
+};
 
 const map=[
   [1,1,1,1,1,1,1,1],
@@ -33,10 +53,11 @@ const map=[
 const c=genc(map);
 
 let px=288,py=476,pr=12;
-let pa=0;
+let pa=Math.PI/2;
 let pv=[0,0];
 let mt=false,mb=false,mr=false,ml=false;
 const mv=200;
+let mx=0,my=0;
 
 //draw map
 for(let y=0;y<map.length;y++){
@@ -74,6 +95,39 @@ document.addEventListener('keyup',e=>{
   if(e.code=='KeyW'){ mt=false; }
   if(e.code=='KeyS'){ mb=false; }
 });
+container.addEventListener('mousemove',e=>{
+  let bounds=container.getBoundingClientRect();
+  mx=e.clientX-bounds.left;
+  my=e.clientY-bounds.top;
+});
+
+const FOV=1;
+let rays=[];
+for(let i=0;i<FOV;i++){
+  const ray=drawLine(px,py,px+Math.cos(pa),py-Math.sin(pa),2,[0,255,0]);
+  rays.push(ray);
+}
+
+const drawRays=()=>{
+  let ss;
+  for(let i=0;i<rays.length;i++){
+    let dy=(Math.floor(py/TILE_SIZE)*TILE_SIZE)-py;
+    let dx=Math.tan(pa)*dy;
+    ss=-Math.sqrt(dx**2+dy**2);
+    // ss=dy;
+    //update line
+    const lineElem=rays[i],x1=px+pr,y1=py,x2=px+pr+Math.cos(pa-radians(90))*ss,y2=py-Math.sin(pa-radians(90))*ss,thickness=2,color=[0,255,0];
+    const distance = Math.sqrt((x2-x1)**2+(y2-y1)**2);
+    const angle=degrees(Math.atan2(x2-x1,y2-y1));
+    lineElem.style.left= `${x1}px`;
+    lineElem.style.top= `${y1}px`;
+    lineElem.style.width=`${distance}px`;
+    lineElem.style.height =`${thickness}px`;
+    lineElem.style.backgroundColor=`rgb(${color.toString()})`;
+    lineElem.style.transformOrigin=`0 ${thickness/2}px`;
+    lineElem.style.transform=`rotate(${angle+270}deg)`;
+  }
+}
 
 let lt;
 const update=t=>{
@@ -103,6 +157,8 @@ const update=t=>{
   }
   player.style.left=`${px}px`;
   player.style.top=`${py}px`;
+  pa=-Math.atan2(mx-px,my-py);
+  drawRays();
 
   window.requestAnimationFrame(update);
 };
