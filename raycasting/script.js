@@ -80,11 +80,11 @@ const update=t=>{
   let dt=(t-lt)/1000;
   lt=t;
 
-  if(mr){ pv[0]=lerp(pv[0],pv[0]+200,dt*5); }
-  if(ml){ pv[0]=lerp(pv[0],pv[0]-200,dt*5); }
-  if(mt){ pv[1]=lerp(pv[1],pv[1]-200,dt*5); }
-  if(mb){ pv[1]=lerp(pv[1],pv[1]+200,dt*5); }
-  if(!mr&&!ml&&!mt&&!mb){ pv[0]=lerp(pv[0],0,dt*5); pv[1]=lerp(pv[1],0,dt*5); }
+  if(mr){ pv[0]=lerp(pv[0],pv[0]+200,dt*7); }
+  if(ml){ pv[0]=lerp(pv[0],pv[0]-200,dt*7); }
+  if(mt){ pv[1]=lerp(pv[1],pv[1]-200,dt*7); }
+  if(mb){ pv[1]=lerp(pv[1],pv[1]+200,dt*7); }
+  if(!mr&&!ml&&!mt&&!mb){ pv[0]=lerp(pv[0],0,dt*7); pv[1]=lerp(pv[1],0,dt*7); }
   pv[0]=clamp(pv[0],-mv,mv);
   pv[1]=clamp(pv[1],-mv,mv);
   px+=pv[0]*dt;
