@@ -111,10 +111,11 @@ for(let i=0;i<FOV;i++){
 const drawRays=()=>{
   let ss;
   for(let i=0;i<rays.length;i++){
-    let dy=(Math.floor(py/TILE_SIZE)*TILE_SIZE)-py;
-    let dx=Math.tan(pa)*dy;
-    ss=-Math.sqrt(dx**2+dy**2);
-    // ss=dy;
+    if(pa>1.5||pa<-1.5){
+      let dy=(Math.floor(py/TILE_SIZE)*TILE_SIZE)-py;
+      let dx=Math.tan(pa)*dy;
+      ss=-Math.sqrt(dx**2+dy**2);
+    }
     //update line
     const lineElem=rays[i],x1=px+pr,y1=py,x2=px+pr+Math.cos(pa-radians(90))*ss,y2=py-Math.sin(pa-radians(90))*ss,thickness=2,color=[0,255,0];
     const distance = Math.sqrt((x2-x1)**2+(y2-y1)**2);
