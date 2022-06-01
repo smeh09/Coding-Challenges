@@ -1,5 +1,7 @@
 const container=document.querySelector('#container');
 
+const TILE_SIZE=75;
+
 const lerp=(a,b,c)=>{
   return a+(b-a)*c;
 }
@@ -7,6 +9,15 @@ const clamp=(x,min,max)=>{
   x<min?x=min:x=x;
   x>max?x=max:x=x;
   return x;
+}
+const genc=map=>{
+  let c=[];
+  for(let y=0;y<map.length;y++){
+    for(let x=0;x<map[y].length;x++){
+      map[y][x]===1?c.push([x*TILE_SIZE,y*TILE_SIZE]):{};
+    }
+  }
+  return c;
 }
 
 const map=[
@@ -19,13 +30,13 @@ const map=[
   [1,0,0,0,0,0,0,1],
   [1,1,1,1,1,1,1,1],
 ];
-const TILE_SIZE=75;
+const c=genc(map);
 
 let px=288,py=476,pr=12;
 let pa=0;
 let pv=[0,0];
 let mt=false,mb=false,mr=false,ml=false;
-const mv=300;
+const mv=400;
 
 //draw map
 for(let y=0;y<map.length;y++){
@@ -78,7 +89,19 @@ const update=t=>{
   pv[0]=clamp(pv[0],-mv,mv);
   pv[1]=clamp(pv[1],-mv,mv);
   px+=pv[0]*dt;
+  for(let i=0;i<c.length;i++){
+    if(px < c[i][0] + TILE_SIZE && px + pr*2 > c[i][0] && py < c[i][1] + TILE_SIZE && pr*2 + py > c[i][1]){
+      if(pv[0]>0){ px=c[i][0]-pr*2; }
+      if(pv[0]<0){ px=c[i][0]+TILE_SIZE; }
+    }
+  }
   py+=pv[1]*dt;
+  for(let i=0;i<c.length;i++){
+    if(px < c[i][0] + TILE_SIZE && px + pr*2 > c[i][0] && py < c[i][1] + TILE_SIZE && pr*2 + py > c[i][1]){
+      if(pv[1]>0){ py=c[i][1]-pr*2; }
+      if(pv[1]<0){ py=c[i][1]+TILE_SIZE; }
+    }
+  }
   player.style.left=`${px}px`;
   player.style.top=`${py}px`;
 
