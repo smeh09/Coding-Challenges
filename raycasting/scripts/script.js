@@ -16,7 +16,7 @@ let angleS = false;
 
 let playerV = [0, 0];
 
-const maxlen = 20;
+const maxlen = 50;
 
 const map = [
   [1, 1, 1, 1, 1, 1, 1, 1],
@@ -166,8 +166,6 @@ container.appendChild(player);
 
 // create raycast
 let rayX = playerX, rayY = playerY;
-let rayStopped = false;
-let lastX = playerX, lastY = playerY, lastA = playerA;
 let rayLine = line(playerX, playerY, rayX, rayY, 2, [0, 255, 100]);
 
 let lastTimestamp;
@@ -178,10 +176,10 @@ const update = (timestamp) => {
   let playerV = [0, 0,]
 
   if (angleA) {
-    playerA += 200 * deltatime;
+    playerA += 100 * deltatime;
   }
   if (angleS) {
-    playerA -= 200 * deltatime;
+    playerA -= 100 * deltatime;
   }
   if (movingT) {
     playerV[0] = Math.cos(radians(playerA)) * 200 * deltatime;
@@ -214,8 +212,8 @@ const update = (timestamp) => {
 
     let len = 0;
     while (colliding.indexOf(true) === -1 && len <= maxlen) {
-      rayX += Math.cos(radians(playerA)) * 37.5;
-      rayY -= Math.sin(radians(playerA)) * 37.5; 
+      rayX += Math.cos(radians(playerA)) * 15.5;
+      rayY -= Math.sin(radians(playerA)) * 15.5; 
 
       colliding = [];
       colliders.forEach((collider, index) => {
